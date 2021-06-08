@@ -1,0 +1,7 @@
+form_module.buildForm:
+  path: '/formnew'
+  defaults:
+    _form: '\Drupal\form_module\Form\Newform'
+    _title: 'Welcome to My title'
+  requirements: 
+    _permission: 'sample permission'

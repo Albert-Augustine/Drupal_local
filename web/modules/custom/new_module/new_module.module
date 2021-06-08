@@ -1,0 +1,31 @@
+<?php
+
+use Drupal\image\Entity\ImageStyle;
+
+  function new_module_preprocess_node(&$variables) {
+    if ($variables['node']->getType() == 'article') {
+      $variables['mytitle'] = $variables['node']->get('title')->value;
+      $variables['body'] = $variables['node']->get('body')->value;
+      $image_file_id = $variables['node']->field_image[0]->target_id;
+      $file = \Drupal\file\Entity\File::load($image_file_id);
+      $url = $file->uri->value;
+      $variables['myimage'] =file_create_url($url);
+    }
+  }
+
+  // function new_module_preprocess_node(&$variables) {
+  //   if (($node = \Drupal::routeMatch()->getParameter('node')) && $node instanceof \Drupal\node\NodeInterface) {
+  //     $variables['mytitle'] = $variables['node']->get('title')->value;
+  //     $variables['body'] = $variables['node']->get('body')->value;
+  //     $banneruri = $node->field_image->entity->getFileUri();
+  //     $style = \Drupal::entityTypeManager()
+  //             ->getStorage('image_style')
+  //             ->load('test');
+  //     $styleuri = $style->buildUri($banneruri);
+  //     if (!file_exists($styleuri)) {
+  //       $style->createDerivative($banneruri, $styleuri);
+  //     }
+  //    $variables['myimage'] = file_url_transform_relative($style->buildUrl($banneruri));
+  //   }
+  // }
+  // ddl($variables);

@@ -1,0 +1,38 @@
+<?php
+
+use Drupal\Core\Database\Database;
+/**
+ * implement hook_schema()
+ */
+function service_module_schema(){
+  $schema['service_module'] = array(
+    'description' => 'The table for storing the badgr data.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The primary identifier for badgr.',
+        'type' => 'serial',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+      ),                                               
+      'username' => array(
+        'description' => 'form email.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+  		),
+      'password' => array(
+        'description' => 'form password.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+      'primary key' => array('id'),
+  );
+  return $schema;
+}
+// function form_module_update_90036() {
+//   db_drop_field('form_module', 'phone_number');
+// }

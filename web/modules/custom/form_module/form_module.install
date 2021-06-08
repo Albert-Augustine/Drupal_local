@@ -1,0 +1,54 @@
+<?php
+
+use Drupal\Core\Database\Database;
+/**
+ * implement hook_schema()
+ */
+function form_module_schema(){
+  $schema['form_module'] = array(
+    'description' => 'The table for storing the products data.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The primary identifier for product.',
+        'type' => 'serial',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+      ),
+      'name' => array(
+        'description' => 'form name.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),                                                    
+      'email' => array(
+        'description' => 'form email.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+  		),
+      'phone_number' => array(
+        'description' => 'form ph no.',
+        'type' => 'int',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+      'primary key' => array('id'),
+  );
+  return $schema;
+}
+function form_module_update_90036() {
+  db_drop_field('form_module', 'phone_number');
+}
+function form_module_update_90037() {
+  $spec = [
+  	'description' => 'phno',
+    'type' => 'varchar',
+    'length' => 20,     
+  ];
+  $schema = Database::getConnection()->schema();
+  $schema->addField('form_module','phone_number',$spec);
+}

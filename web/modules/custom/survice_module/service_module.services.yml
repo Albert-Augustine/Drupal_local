@@ -1,0 +1,4 @@
+services:
+  service_module.say_hello:
+    class: Drupal\service_module\HelloServices
+    arguments: ['@http_client','@current_user']
