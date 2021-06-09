@@ -5,3 +5,13 @@ service_module.buildForm:
     _title: 'Welcome to My title'
   requirements: 
     _permission: 'sample permission'
+
+service_module.settings_form:
+  path: '/admin/config/service_module/settings'
+  defaults:
+    _form: '\Drupal\service_module\Form\Serviceform'
+    _title: 'SettingsForm'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE

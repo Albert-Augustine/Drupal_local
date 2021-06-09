@@ -40,8 +40,8 @@ class HelloServices {
   */
   public function badgr_initiate($username, $password) {
     $request =$this->httpClient->request('POST','https://api.badgr.io/o/token',[
-      'form_params' =>['username' => $username, 'password' => $password];
-      ],
+      'form_params' =>['username' => $username, 'password' => $password],
+      ]
     );
     $variables = $request->getBody()->getContents();
     $access_token = json_decode($variables)->access_token;
@@ -79,7 +79,7 @@ class HelloServices {
   *
   */
   public function  badgr_create_issuer($access_token, array $issuer) {
-    $issuer = $this->httpClient->request(
+    $issuerdata = $this->httpClient->request(
       'POST',
       'https://api.badgr.io/v2/issuers', 
       [
@@ -87,7 +87,7 @@ class HelloServices {
       'form_params' => $issuer
       ]
     );
-    $value = $issuer->getBody()->getContents();
+    $value = $issuerdata->getBody()->getContents();
     return $value;
   }
   /**
