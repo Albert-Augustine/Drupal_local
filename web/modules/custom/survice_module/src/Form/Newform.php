@@ -49,6 +49,7 @@ class Newform extends FormBase {
     $config = $this->config('service_module.settings');
     $username = $config->get('username');
     $password = $config->get('password');
+    ddl($username);
     $name = $form_state->getValue('name');
     $email = $form_state->getValue('email');
     $url = $form_state->getValue('url');
@@ -56,11 +57,11 @@ class Newform extends FormBase {
 
 
     $service = \Drupal::service('service_module.say_hello');
-    dsm($service->badgr_initiate($username, $password));
+    $service->badgr_initiate($username, $password);
     $token = $service->badgr_initiate($username, $password);
     $access_token = $token['accesstoken']; 
     // ddl($access_token);
-    dsm($service->badgr_create_issuer($access_token,$issuer));
+    $service->badgr_create_issuer($access_token,$issuer);
   }
   // $service = \Drupal::service('service_module.say_hello');
   //   dsm($service->badgr_initiate($username,$password));

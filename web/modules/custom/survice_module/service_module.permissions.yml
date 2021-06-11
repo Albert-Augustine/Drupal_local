@@ -1,3 +1,7 @@
 sample permission :
   title: First level permission
   description: Gives first level permission to the users.
+
+sample permission1 :
+  title: First level permission
+  description: Gives first level permission to the users.

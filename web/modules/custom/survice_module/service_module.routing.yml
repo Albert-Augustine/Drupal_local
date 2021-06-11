@@ -1,5 +1,5 @@
 service_module.buildForm:
-  path: '/badgrform'
+  path: '/issurform'
   defaults:
     _form: '\Drupal\service_module\Form\Newform'
     _title: 'Welcome to My title'
@@ -15,3 +15,11 @@ service_module.settings_form:
     _permission: 'access administration pages'
   options:
     _admin_route: TRUE
+
+service_module.buildForm:
+  path: '/badgerform'
+  defaults:
+    _form: '\Drupal\service_module\Form\Createbadgr'
+    _title: 'Welcome to My title'
+  requirements: 
+    _permission: 'sample permission'
