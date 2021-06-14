@@ -1,0 +1,9 @@
+name: Badger Service
+type: module
+description: The module provide your service from  your custom module.
+core: 8.x
+package: Examples
+version: 1.0
+dependencies:
+  - node
+  - block

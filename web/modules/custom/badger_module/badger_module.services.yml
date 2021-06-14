@@ -1,0 +1,4 @@
+services:
+  badger_module.say_hello:
+    class: Drupal\badger_module\HelloServices
+    arguments: ['@http_client','@current_user']
