@@ -12,30 +12,97 @@ class CreatebadgrForm extends FormBase {
     return 'createbadgr_form_api';
   }
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['type_options'] = array(
+    '#type' => 'value',
+    '#value' => array('List' => t('List'),
+                      'Create' => t('Create'),
+                      'Update' => t('Update'))
+    );
+    $form['type'] = array(
+      '#title' => t('Project Type'),
+      '#type' => 'select',
+      '#description' => "Select the project count type.",
+      '#options' => $form['type_options']['#value'],
+    );
     $form['name'] = array(
       '#type' => 'textfield',
       '#title' => t('name:'),
-      '#required' => TRUE,
+      //'#required' => TRUE,
+      '#states' => [
+        'optional' => [
+          ['select[name="type"]' => ['value' => 'List']],
+          ['select[name="type"]' => ['value' => 'Create']],
+          ['select[name="type"]' => ['value' => 'Update']],
+        ],
+        'invisible' => [
+          ':input[name="type"]' => ['value' => 'List'], 
+        ],
+      ],
     );
     $form['image'] = array(
       '#title' => t('Image.'),
       '#type' => 'managed_file',
-      '#description' => t('Tamaño máximo 3Mb y formato aceptado jpg,jpeg o png'),
-      '#upload_location' => 'public://',
+      '#description' => t('png image'),
+      '#upload_location' => 'public://badge_image/',
       '#upload_validators' => array(
-        'file_validate_extensions' => array('png jpg jpeg'),
+        'file_validate_extensions' => array('png'),
         'file_validate_size' => array(3*300*300),
       ),
+      '#states' => [
+        'optional' => [
+          ['select[name="type"]' => ['value' => 'List']],
+          ['select[name="type"]' => ['value' => 'Create']],
+          ['select[name="type"]' => ['value' => 'Update']],
+        ],
+        'invisible' => [
+          ':input[name="type"]' => ['value' => 'List'], 
+        ],
+      ],
     );
     $form['description'] = array(
       '#type' => 'textfield',
       '#title' => t('Description:'),
-      '#required' => TRUE,
+      //'#required' => TRUE,
+      '#states' => [
+        'optional' => [
+          ['select[name="type"]' => ['value' => 'List']],
+          ['select[name="type"]' => ['value' => 'Create']],
+          ['select[name="type"]' => ['value' => 'Update']],
+        ],
+        'invisible' => [
+          ':input[name="type"]' => ['value' => 'List'], 
+        ],
+      ],
     );
     $form['criteriaUrl'] = array (
       '#type' => 'textfield',
       '#title' => t('CriteriaUrl'),
-      '#required' => TRUE,
+      //'#required' => TRUE,
+      '#states' => [
+        'optional' => [
+          ['select[name="type"]' => ['value' => 'List']],
+          ['select[name="type"]' => ['value' => 'Create']],
+          ['select[name="type"]' => ['value' => 'Update']],
+        ],
+        'invisible' => [
+          ':input[name="type"]' => ['value' => 'List'], 
+        ],
+      ],
+    );
+    $form['entityid'] = array (
+      '#type' => 'textfield',
+      '#title' => t('Entity id'),
+      //'#required' => TRUE,
+      '#states' => [
+        'optional' => [
+          ['select[name="type"]' => ['value' => 'List']],
+          ['select[name="type"]' => ['value' => 'Create']],
+          ['select[name="type"]' => ['value' => 'Update']],
+        ],
+        'visible' => [
+          ':input[name="type"]' => ['value' => 'Update'], 
+        ],
+      ],
     );
     $form['actions']['submit'] = array(
       '#type' => 'submit',
@@ -56,23 +123,40 @@ class CreatebadgrForm extends FormBase {
    *
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $config = $this->config('service_module.settings');
+    $config = $this->config('badger_module.settings');
     $username = $config->get('username');
     $password = $config->get('password');
     $name = $form_state->getValue('name');
     $description = $form_state->getValue('description');
     $criteriaUrl = $form_state->getValue('criteriaUrl');
-    $image1 = $form_state->getValue('image');
-    $image2 = file_get_contents('image');
-    $image = base64_encode($image2); 
-    $badgr  = ['image' => $image, 'name' => $name, 'description' => $description, 'criteriaUrl' => '$criteriaUrl'];
+    $entityid = $form_state->getValue('entityid');
+    $imagefield = $form_state->getValue('image');
+    foreach ($imagefield as $value) {
+     $imageid = $value;//The file ID
+     //ddl($imageid);
+    }
+    $file = \Drupal\file\Entity\File::load($imageid);
+    $path = $file->getFileUri();
+    $img_file = file_get_contents($path);
+    $ext = pathinfo($path, PATHINFO_EXTENSION);
+    $base64img = base64_encode($img_file);
+    $image = "data:image/{$ext};base64,{$base64img}"; 
+    $badgr  = ['image' => $image, 'name' => $name, 'description' => $description, 'criteriaUrl' => $criteriaUrl];
 
 
-    $service = \Drupal::service('service_module.say_hello');
-    dsm($service->badgr_initiate($username, $password));
+    $service = \Drupal::service('badger_module.say_hello');
     $token = $service->badgr_initiate($username, $password);
     $access_token = $token['accesstoken']; 
-    dsm($service->badgr_create_issuer_badges($access_token, $badgr));
+    
+    if ($type == 'Create') { 
+      dsm($service->badgr_create_issuer_badges($access_token, $badgr));
+    }
+    elseif ($type == 'Update') {
+      dsm($service->badgr_update_issuer_badges($access_token, $entityid, $badgr));
+    }
+    elseif ($type == 'List') {
+      dsm($service->badgr_list_all_badges($access_token));
+    }
     // ddl($access_token);
     //$service->badgr_create_issuer($access_token,$issuer);
   }
