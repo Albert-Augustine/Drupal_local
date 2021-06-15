@@ -39,15 +39,15 @@ class CreatebadgrForm extends FormBase {
         ],
       ],
     );
-    $form['image'] = array(
-      '#title' => t('Image.'),
+    $form['image'] = [
       '#type' => 'managed_file',
-      '#description' => t('png image'),
+      '#title' => t('Image'),
+      '#upload_validators' => [
+        'file_validate_extensions' => ['png'],
+        'file_validate_size' => array(25600000),
+      ],
       '#upload_location' => 'public://badge_image/',
-      '#upload_validators' => array(
-        'file_validate_extensions' => array('png'),
-        'file_validate_size' => array(3*300*300),
-      ),
+      '#enctype' => 'multipart/form-data',
       '#states' => [
         'optional' => [
           ['select[name="type"]' => ['value' => 'List']],
@@ -58,7 +58,7 @@ class CreatebadgrForm extends FormBase {
           ':input[name="type"]' => ['value' => 'List'], 
         ],
       ],
-    );
+    ];
     $form['description'] = array(
       '#type' => 'textfield',
       '#title' => t('Description:'),
@@ -154,7 +154,7 @@ class CreatebadgrForm extends FormBase {
     elseif ($type == 'Update') {
       dsm($service->badgr_update_issuer_badges($access_token, $entityid, $badgr));
     }
-    elseif ($type == 'List') {
+    elseif (($type == 'List')) {
       dsm($service->badgr_list_all_badges($access_token));
     }
     // ddl($access_token);

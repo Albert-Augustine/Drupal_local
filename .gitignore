@@ -3,6 +3,7 @@
 # earlier versions of Drupal are tracked in `community/PHP/`
 # Ignore sensitive information
 /web/sites/*/settings.php
+/web/sites/*/*services*.yml
 /web/sites/*/settings.local.php
 # Ignore Drupal's file directory
 /web/sites/*/files/
@@ -13,3 +14,7 @@
 /.vscode/
 # Ignore .env files as they are personal
 /.env
+/sites/*/public
+/sites/*/private
+/sites/*/files-public
+/sites/*/files-private
