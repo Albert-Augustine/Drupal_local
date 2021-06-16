@@ -44,7 +44,7 @@ class CreatebadgrForm extends FormBase {
       '#title' => t('Image'),
       '#upload_validators' => [
         'file_validate_extensions' => ['png'],
-        'file_validate_size' => array(25600000),
+       // 'file_validate_size' => array(25600000),
       ],
       '#upload_location' => 'public://badge_image/',
       '#enctype' => 'multipart/form-data',
@@ -130,17 +130,20 @@ class CreatebadgrForm extends FormBase {
     $description = $form_state->getValue('description');
     $criteriaUrl = $form_state->getValue('criteriaUrl');
     $entityid = $form_state->getValue('entityid');
-    $imagefield = $form_state->getValue('image');
-    foreach ($imagefield as $value) {
-     $imageid = $value;//The file ID
-     //ddl($imageid);
-    }
-    $file = \Drupal\file\Entity\File::load($imageid);
-    $path = $file->getFileUri();
-    $img_file = file_get_contents($path);
-    $ext = pathinfo($path, PATHINFO_EXTENSION);
-    $base64img = base64_encode($img_file);
-    $image = "data:image/{$ext};base64,{$base64img}"; 
+    $type = $form_state->getValue('type');
+    if($type == 'Create' || $type == 'Update') {
+      $imagefield = $form_state->getValue('image');
+      foreach ($imagefield as $value) {
+       $imageid = $value;//The file ID
+       //ddl($imageid);
+      }
+      $file = \Drupal\file\Entity\File::load($imageid);
+      $path = $file->getFileUri();
+      $img_file = file_get_contents($path);
+      $ext = pathinfo($path, PATHINFO_EXTENSION);
+      $base64img = base64_encode($img_file);
+      $image = "data:image/{$ext};base64,{$base64img}";
+    } 
     $badgr  = ['image' => $image, 'name' => $name, 'description' => $description, 'criteriaUrl' => $criteriaUrl];
 
 
@@ -154,7 +157,7 @@ class CreatebadgrForm extends FormBase {
     elseif ($type == 'Update') {
       dsm($service->badgr_update_issuer_badges($access_token, $entityid, $badgr));
     }
-    elseif (($type == 'List')) {
+    elseif ($type == 'List') {
       dsm($service->badgr_list_all_badges($access_token));
     }
     // ddl($access_token);
