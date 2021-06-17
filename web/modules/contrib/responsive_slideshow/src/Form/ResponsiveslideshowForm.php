@@ -54,7 +54,7 @@ class ResponsiveslideshowForm extends ConfigFormBase {
       '#required' => TRUE,
       '#default_value' => $config->get('responsive_slideshow_interval'),
       '#weight' => 2,
-      '#description' => $this->t('Enter the interval between the slides in the carousel in Milliseconds(5000ms = 5sec).'),
+      '#description' => $this->t('Enter the interval between the slides in the carousel in Milliseconds(2000ms = 2sec).'),
     );
     return parent::buildForm($form, $form_state);
   }

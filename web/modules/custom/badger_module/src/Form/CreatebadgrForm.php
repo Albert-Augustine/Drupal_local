@@ -131,6 +131,7 @@ class CreatebadgrForm extends FormBase {
     $criteriaUrl = $form_state->getValue('criteriaUrl');
     $entityid = $form_state->getValue('entityid');
     $type = $form_state->getValue('type');
+    
     if($type == 'Create' || $type == 'Update') {
       $imagefield = $form_state->getValue('image');
       foreach ($imagefield as $value) {
