@@ -7,3 +7,40 @@
 .navbar-brand {
   color: red;
 }
+
+.container {
+  .row {
+    background-color: red;
+    .col-sm-12 {
+      .region-header {
+        .contextual {
+        }
+        .col-md-12 {
+          .carousel {
+            .carousel-indicators {
+            }
+            .carousel-inner {
+              .carousel-caption {
+              }
+              .carousel-control {
+                right: 0 !important;
+                .glyphicon-chevron-left {
+                }
+              }
+              .carousel-control.right {
+              }
+              .glyphicon-chevron-right{
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+/*.carousel-control.left {
+  right: 0 !important;
+}
+
+
+*/
