@@ -6,41 +6,34 @@
 }
 .navbar-brand {
   color: red;
-}
+}*/
 
-.container {
-  .row {
-    background-color: red;
-    .col-sm-12 {
-      .region-header {
-        .contextual {
-        }
-        .col-md-12 {
-          .carousel {
-            .carousel-indicators {
+
+.row {
+  background-color: red;
+  .col-sm-12 {
+    /*.region-header {
+      .col-md-12 {
+        .carousel {
+          .carousel-inner {
+            .carousel-control.left {
+              right: 0 !important;
             }
-            .carousel-inner {
-              .carousel-caption {
-              }
-              .carousel-control {
-                right: 0 !important;
-                .glyphicon-chevron-left {
-                }
-              }
-              .carousel-control.right {
-              }
-              .glyphicon-chevron-right{
-              }
+            .carousel-control {
+              left: auto;
+            }
+            .carousel-control.right {
             }
           }
         }
       }
-    }
+    }*/
   }
 }
+
 /*.carousel-control.left {
   right: 0 !important;
 }
-
-
-*/
+.carousel-control {
+  left: auto;
+}
